@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "STORE_TEST",
+    "description": "STORE_TEST",
+    "version": "1.0",
+    "background": {
+        "scripts": [
+            "scripts/background.js"
+        ]
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://crm.maxpay888.com/*"
+            ],
+            "js": [
+                "scripts/foreground.js"
+            ]
+        }
+    ],
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ]
+}
