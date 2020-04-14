@@ -11,7 +11,7 @@
     "content_scripts": [
         {
             "matches": [
-                "https://crm.maxpay888.com/*"
+                "https://*/*"
             ],
             "js": [
                 "scripts/foreground.js"
