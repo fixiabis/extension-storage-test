@@ -1,10 +1,17 @@
 const extensionStorage = new Proxy({}, {
-    get: (_, name) => new Promise(gotValue =>
-        chrome.runtime.sendMessage({ __type__: "STORAGE_GET", name }, gotValue)
-    ),
-    set: (_, name, value) => (
-        chrome.runtime.sendMessage({ __type__: "STORAGE_SET", name, value })
-    )
+    get: (_, name) => new Promise(gotValue => {
+        chrome.runtime.onMessage.addListener(message => {
+            if (message.__type__ === "STORAGE_GET" && message.name === name) {
+                chrome.runtime.onMessage.removeListener(arguments.callee);
+                gotValue(message.value);
+            }
+        });
+
+        chrome.runtime.sendMessage({ __type__: "STORAGE_GET", name });
+    }),
+    set: (_, name, value) => {
+        chrome.runtime.sendMessage({ __type__: "STORAGE_SET", name, value });
+    }
 });
 
 !async function () {
